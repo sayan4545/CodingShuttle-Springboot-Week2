@@ -1,6 +1,7 @@
 package com.springbootweb.springboot.web.controllers;
 import com.springbootweb.springboot.web.dto.EmployeeDto;
 import com.springbootweb.springboot.web.services.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +27,10 @@ public class EmployeeController {
         }
     }
     @PostMapping("/postEmployee")
-    public EmployeeDto saveEmployee(@RequestBody EmployeeDto employeeDto){
-        return employeeService.saveEmployee(employeeDto);
+    public ResponseEntity<EmployeeDto> saveEmployee(@RequestBody @Valid EmployeeDto employeeDto){
+        //return employeeService.saveEmployee(employeeDto);
+        EmployeeDto newEmployee = employeeService.saveEmployee(employeeDto);
+        return new  ResponseEntity<>(newEmployee,HttpStatus.CREATED);
     }
     @GetMapping("/getAllEmployees")
     public List<EmployeeDto> getAllEmployees(){
@@ -37,10 +40,10 @@ public class EmployeeController {
     public EmployeeDto updateEmployeeById(@RequestBody EmployeeDto employeeDto,@PathVariable Long EmployeeId){
         return employeeService.updateEmployee(employeeDto,EmployeeId);
     }
-    @PatchMapping("/partialUpdate/{employeeId}")
-    public EmployeeDto partialUpdateById(@RequestBody Map<String,Object> updates,@PathVariable Long employeeId){
-        return employeeService.partiallyUpdateEmployee(employeeId,updates);
-    }
+//    @PatchMapping("/partialUpdate/{employeeId}")
+//    public EmployeeDto partialUpdateById(@RequestBody Map<String,Object> updates,@PathVariable Long employeeId){
+//        return employeeService.partiallyUpdateEmployee(employeeId,updates);
+//    }
 }
 
 

@@ -1,9 +1,12 @@
 package com.springbootweb.springboot.web.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 public class EmployeeDto {
     private long id;
+    @NotNull(message = "name field is required")
     private String name;
     private boolean isActive;
     private LocalDate doj;
