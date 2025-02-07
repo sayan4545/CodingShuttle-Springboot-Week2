@@ -23,6 +23,10 @@ public class EmployeeController {
     public List<EmployeeDto> getAllEmployees(){
         return employeeService.getAllEmployees();
     }
+    @PutMapping("/updateEmployee/{employeeId}")
+    public EmployeeDto updateEmployeeById(@RequestBody EmployeeDto employeeDto,@PathVariable Long EmployeeId){
+        return employeeService.updateEmployee(employeeDto,EmployeeId);
+    }
 }
 
 
