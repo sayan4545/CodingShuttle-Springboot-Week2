@@ -1,51 +1,28 @@
 package com.springbootweb.springboot.web.controllers;
-
 import com.springbootweb.springboot.web.dto.EmployeeDto;
-import com.springbootweb.springboot.web.entities.EmployeeEntity;
-import com.springbootweb.springboot.web.repositories.Employeerepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.springbootweb.springboot.web.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.time.LocalDate;
 import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1")
 public class EmployeeController {
-    private final Employeerepository employeerepository;
-
-    public EmployeeController(Employeerepository employeerepository) {
-        this.employeerepository = employeerepository;
+    private final EmployeeService employeeService;
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
-    @GetMapping("/employees/{employeeId}")
-    public EmployeeEntity getEmployeeById(@PathVariable Long employeeId){
-        return employeerepository.findById(employeeId).orElse(null);
+    @GetMapping("/employees/{EmployeeId}")
+    public EmployeeDto getEmployeeById(@PathVariable Long EmployeeId) {
+        return employeeService.getEmployeeById(EmployeeId);
     }
-    @GetMapping("/employees/get2")
-    public String employeeBySort(@RequestParam(required = false) Integer age,
-                                 @RequestParam(required = false,defaultValue = "Chandrika") String name ){
-        return "Hi"+" "+ age + " "+ name;
+    @PostMapping("/postEmployee")
+    public EmployeeDto saveEmployee(@RequestBody EmployeeDto employeeDto){
+        return employeeService.saveEmployee(employeeDto);
     }
     @GetMapping("/getAllEmployees")
-    public List<EmployeeEntity> getAllEmployees(){
-        return employeerepository.findAll();
+    public List<EmployeeDto> getAllEmployees(){
+        return employeeService.getAllEmployees();
     }
-    @PostMapping("/post")
-    public EmployeeEntity saveEmployee(@RequestBody EmployeeEntity newEmployee){
-        return employeerepository.save(newEmployee);
-    }
-//    @PostMapping("/postEmployee")
-//    public EmployeeDto employeeDtopost(@RequestBody EmployeeDto employee1){
-//        employee1.setId(100l);
-//        employee1.setActive(false);
-//        return employee1;
-//    }
-    @PutMapping("/put")
-    public String getPut(){
-        return "Hello from put";
-    }
-
 }
+
+
